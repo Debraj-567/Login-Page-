@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #F4F4F6;
+  --surface: #FFFFFF;
+  --surface-soft: #FAFAFB;
+  --ink: #14161A;
+  --ink-soft: #6B7280;
+  --line: #E6E7EB;
+  --accent: #2F6FED;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E8EFFE;
+  --warn: #F5A623;
+  --warn-soft: #FDF1DD;
+  --teal: #14B8A6;
+  --teal-soft: #E1F7F3;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html.dark {
+  --bg: #101114;
+  --surface: #17181C;
+  --surface-soft: #1C1E23;
+  --ink: #F2F3F5;
+  --ink-soft: #9AA0AC;
+  --line: #2A2C32;
+  --accent: #5B8CFF;
+  --accent-ink: #0B1220;
+  --accent-soft: #16233D;
+  --warn: #FFB454;
+  --warn-soft: #2E2312;
+  --teal: #2DD4BF;
+  --teal-soft: #123330;
+}
+
+html.dark .cta-shadow {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 20px 40px -22px rgba(0, 0, 0, .6) !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* Infinite horizontal scroll used by the integrations strip */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 26s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Slow ambient drift for the hero's background blobs */
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(2%, -3%) scale(1.06); }
+}
+
+.animate-drift {
+  animation: drift 12s ease-in-out infinite;
+}
+
+.animate-drift-slow {
+  animation: drift 16s ease-in-out infinite;
+  animation-delay: -4s;
+}
