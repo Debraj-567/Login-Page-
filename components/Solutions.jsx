@@ -24,6 +24,41 @@ const INITIAL_TASKS = [
   { label: "Confirm call script v2", done: false },
 ];
 
+const RUNS = [
+  { name: "Instagram post queue", status: "Running", tone: "accent" },
+  { name: "WhatsApp broadcast — 2pm", status: "Queued", tone: "warn" },
+  { name: "Lead sync to CRM", status: "Done", tone: "teal" },
+  { name: "Voice follow-up calls", status: "Done", tone: "teal" },
+];
+
+const INBOX_MESSAGES = [
+  { bg: "#DBEAFE", text: "New lead from Instagram DM — Priya wants pricing." },
+  { bg: "#DCFCE7", text: "WhatsApp: order #245 confirmed automatically." },
+  { bg: "#FCE7F3", text: "Missed call follow-up sent via SMS." },
+  { bg: "#FDE68A", text: "LinkedIn comment flagged for a human reply." },
+];
+
+const REPORT_BARS = [
+  { day: "Mon", value: 40 },
+  { day: "Tue", value: 65 },
+  { day: "Wed", value: 50 },
+  { day: "Thu", value: 85 },
+  { day: "Fri", value: 60 },
+];
+
+const CHANNELS = [
+  { icon: "i-chatbot", label: "WhatsApp", connected: true },
+  { icon: "i-instagram", label: "Instagram", connected: true },
+  { icon: "i-linkedin", label: "LinkedIn", connected: true },
+  { icon: "i-email", label: "Gmail", connected: false },
+];
+
+const STATUS_STYLES = {
+  accent: "bg-accentsoft text-accent",
+  warn: "bg-warnsoft text-warn",
+  teal: "bg-tealsoft text-teal",
+};
+
 export default function Solutions() {
   const [activeNav, setActiveNav] = useState(NAV_ITEMS[0].label);
   const [tasks, setTasks] = useState(INITIAL_TASKS);
@@ -31,6 +66,14 @@ export default function Solutions() {
   function toggleTask(label) {
     setTasks((prev) => prev.map((t) => (t.label === label ? { ...t, done: !t.done } : t)));
   }
+
+  const heading = {
+    "Home": "Good morning, team 👋",
+    "My runs · 22": "Automation runs",
+    "Inbox · 15": "Inbox",
+    "Reporting": "Reporting",
+    "Channels": "Connected channels",
+  }[activeNav];
 
   return (
     <section id="solutions" className="py-16 sm:py-24">
@@ -76,9 +119,10 @@ export default function Solutions() {
                 </button>
               ))}
             </div>
+
             <div className="p-5 sm:p-7 text-left">
               <div className="flex items-center justify-between mb-6">
-                <h4 className="text-lg font-extrabold">Good morning, team 👋</h4>
+                <h4 className="text-lg font-extrabold">{heading}</h4>
                 <button
                   type="button"
                   className="cursor-pointer transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
@@ -86,46 +130,108 @@ export default function Solutions() {
                   <Pill>Customize</Pill>
                 </button>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-[1.2fr_1fr_1fr] gap-4">
-                <div className="bg-surface2 border border-line rounded-xl p-4">
-                  <h5 className="text-xs font-bold text-inksoft mb-3">To-do list</h5>
-                  {tasks.map((t) => (
-                    <label key={t.label} className="flex items-center gap-2 text-sm font-semibold mb-2 last:mb-0 cursor-pointer select-none">
-                      <input
-                        type="checkbox"
-                        checked={t.done}
-                        onChange={() => toggleTask(t.label)}
-                        className="accent-accent cursor-pointer"
+
+              {activeNav === "Home" && (
+                <div className="grid grid-cols-1 sm:grid-cols-[1.2fr_1fr_1fr] gap-4" data-aos="fade-up">
+                  <div className="bg-surface2 border border-line rounded-xl p-4">
+                    <h5 className="text-xs font-bold text-inksoft mb-3">To-do list</h5>
+                    {tasks.map((t) => (
+                      <label key={t.label} className="flex items-center gap-2 text-sm font-semibold mb-2 last:mb-0 cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={t.done}
+                          onChange={() => toggleTask(t.label)}
+                          className="accent-accent cursor-pointer"
+                        />
+                        <span className={t.done ? "line-through text-inksoft" : ""}>{t.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <div className="bg-surface2 border border-line rounded-xl p-4">
+                    <h5 className="text-xs font-bold text-inksoft mb-3">Time saved</h5>
+                    <div className="text-2xl font-extrabold tabular-nums">04:21:58</div>
+                    <div className="text-xs text-inksoft mt-1">this week, across all runs</div>
+                  </div>
+                  <div className="bg-surface2 border border-line rounded-xl p-4 flex flex-col items-center justify-center">
+                    <h5 className="text-xs font-bold text-inksoft mb-2 self-start">Deal pipeline</h5>
+                    <svg width="76" height="76" viewBox="0 0 76 76">
+                      <circle cx="38" cy="38" r="30" fill="none" stroke="var(--line)" strokeWidth="9" />
+                      <circle
+                        cx="38"
+                        cy="38"
+                        r="30"
+                        fill="none"
+                        stroke="var(--warn)"
+                        strokeWidth="9"
+                        strokeLinecap="round"
+                        strokeDasharray="141 188.5"
+                        transform="rotate(-90 38 38)"
                       />
-                      <span className={t.done ? "line-through text-inksoft" : ""}>{t.label}</span>
-                    </label>
+                      <text x="38" y="42" textAnchor="middle" fontFamily="Plus Jakarta Sans" fontSize="15" fontWeight="800" fill="var(--ink)">
+                        75%
+                      </text>
+                    </svg>
+                    <div className="text-xs text-inksoft mt-2">leads converted this month</div>
+                  </div>
+                </div>
+              )}
+
+              {activeNav === "My runs · 22" && (
+                <div className="bg-surface2 border border-line rounded-xl p-4" data-aos="fade-up">
+                  {RUNS.map((run, i) => (
+                    <div
+                      key={run.name}
+                      className={`flex items-center justify-between gap-3 py-2.5 ${i < RUNS.length - 1 ? "border-b border-dashed border-line" : ""}`}
+                    >
+                      <span className="text-sm font-semibold">{run.name}</span>
+                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${STATUS_STYLES[run.tone]}`}>{run.status}</span>
+                    </div>
                   ))}
                 </div>
-                <div className="bg-surface2 border border-line rounded-xl p-4">
-                  <h5 className="text-xs font-bold text-inksoft mb-3">Time saved</h5>
-                  <div className="text-2xl font-extrabold tabular-nums">04:21:58</div>
-                  <div className="text-xs text-inksoft mt-1">this week, across all runs</div>
+              )}
+
+              {activeNav === "Inbox · 15" && (
+                <div className="bg-surface2 border border-line rounded-xl p-4 space-y-2.5" data-aos="fade-up">
+                  {INBOX_MESSAGES.map((m) => (
+                    <div key={m.text} className="flex gap-2.5 items-start text-xs">
+                      <span className="w-6 h-6 rounded-full flex-none" style={{ background: m.bg }}></span>
+                      <span className="bg-surface border border-line rounded-lg px-2.5 py-1.5 font-semibold">{m.text}</span>
+                    </div>
+                  ))}
                 </div>
-                <div className="bg-surface2 border border-line rounded-xl p-4 flex items-center justify-center">
-                  <svg width="76" height="76" viewBox="0 0 76 76">
-                    <circle cx="38" cy="38" r="30" fill="none" stroke="var(--line)" strokeWidth="9" />
-                    <circle
-                      cx="38"
-                      cy="38"
-                      r="30"
-                      fill="none"
-                      stroke="var(--warn)"
-                      strokeWidth="9"
-                      strokeLinecap="round"
-                      strokeDasharray="141 188.5"
-                      transform="rotate(-90 38 38)"
-                    />
-                    <text x="38" y="42" textAnchor="middle" fontFamily="Plus Jakarta Sans" fontSize="15" fontWeight="800" fill="var(--ink)">
-                      75%
-                    </text>
-                  </svg>
+              )}
+
+              {activeNav === "Reporting" && (
+                <div className="bg-surface2 border border-line rounded-xl p-4" data-aos="fade-up">
+                  <h5 className="text-xs font-bold text-inksoft mb-4">Automations run this week</h5>
+                  <div className="flex items-end gap-3 h-28">
+                    {REPORT_BARS.map((bar) => (
+                      <div key={bar.day} className="flex-1 flex flex-col items-center gap-2">
+                        <div className="w-full rounded-md bg-accent/80" style={{ height: `${bar.value}%` }}></div>
+                        <span className="text-[11px] font-semibold text-inksoft">{bar.day}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {activeNav === "Channels" && (
+                <div className="grid grid-cols-2 gap-3" data-aos="fade-up">
+                  {CHANNELS.map((c) => (
+                    <div key={c.label} className="bg-surface2 border border-line rounded-xl p-3.5 flex items-center gap-2.5">
+                      <span className="w-8 h-8 rounded-[9px] bg-surface border border-line flex items-center justify-center flex-none">
+                        <Icon name={c.icon} className="w-4 h-4" />
+                      </span>
+                      <div>
+                        <div className="text-sm font-bold">{c.label}</div>
+                        <div className={`text-[11px] font-semibold ${c.connected ? "text-teal" : "text-inksoft"}`}>
+                          {c.connected ? "Connected" : "Not connected"}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
