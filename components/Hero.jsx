@@ -6,18 +6,18 @@ const RUN_BARS = [
   { label: "Calls placed — 42%", color: "bg-warn", width: "42%" },
 ];
 
-// Hub-and-spoke connector paths, drawn in a 0–100 percentage viewBox so they
-// track the four corner cards regardless of the container's actual pixel size.
-const CONNECTORS = [
-  { d: "M50,50 C 36,36 24,22 15,12", color: "var(--warn)" },
-  { d: "M50,50 C 64,36 76,22 85,12", color: "var(--accent)" },
-  { d: "M50,50 C 36,64 24,78 15,88", color: "var(--teal)" },
-  { d: "M50,50 C 64,64 76,78 85,88", color: "var(--accent)" },
+// Short dashed spokes radiating from the hub — a hint of connection toward
+// each surrounding card, not a wire drawn all the way into it.
+const SPOKES = [
+  { x1: 44, y1: 44, x2: 30, y2: 30, color: "var(--warn)" },
+  { x1: 56, y1: 44, x2: 70, y2: 30, color: "var(--accent)" },
+  { x1: 44, y1: 56, x2: 30, y2: 70, color: "var(--teal)" },
+  { x1: 56, y1: 56, x2: 70, y2: 70, color: "var(--accent)" },
 ];
 
 export default function Hero() {
   return (
-    <section className="relative pt-10 sm:pt-16 pb-4 text-center overflow-hidden">
+    <section className="relative pt-10 sm:pt-16 pb-10 sm:pb-16 text-center overflow-hidden">
       <div
         className="pointer-events-none absolute -top-24 -left-24 w-[380px] h-[380px] rounded-full bg-accentsoft opacity-60 blur-3xl animate-drift"
         aria-hidden="true"
@@ -45,30 +45,17 @@ export default function Hero() {
         </div>
 
         <div
-          className="relative max-w-[980px] mx-auto mt-12 h-[440px] hidden lg:block"
+          className="relative max-w-[900px] mx-auto mt-12 h-[400px] hidden lg:block"
           aria-hidden="true"
           data-aos="fade-up"
           data-aos-delay="150"
         >
-          {/* connector lines, drawn beneath the cards */}
-          <svg
-            className="absolute inset-0 w-full h-full"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-          >
-            {CONNECTORS.map((c) => (
-              <g key={c.d}>
-                <path d={c.d} fill="none" stroke="var(--line)" strokeWidth="0.35" vectorEffect="non-scaling-stroke" />
-                <path
-                  d={c.d}
-                  fill="none"
-                  stroke={c.color}
-                  strokeWidth="0.45"
-                  strokeLinecap="round"
-                  vectorEffect="non-scaling-stroke"
-                  className="dash-flow"
-                  opacity="0.85"
-                />
+          {/* short animated spokes radiating from the hub */}
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+            {SPOKES.map((s) => (
+              <g key={`${s.x1}-${s.y1}`}>
+                <line x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} stroke={s.color} strokeWidth="0.5" strokeLinecap="round" className="dash-flow" opacity="0.7" />
+                <circle cx={s.x2} cy={s.y2} r="1.1" fill={s.color} />
               </g>
             ))}
           </svg>

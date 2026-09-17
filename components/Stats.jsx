@@ -71,7 +71,7 @@ function StatCell({ stat }) {
 
 export default function Stats() {
   return (
-    <section className="pb-4">
+    <section className="pt-6 sm:pt-10 pb-4">
       <div className="max-w-[1180px] mx-auto px-5 sm:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" data-aos="fade-up">
           {STATS.map((stat) => (
