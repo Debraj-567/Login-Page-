@@ -93,3 +93,13 @@ h1, h2, h3 {
   animation: drift 16s ease-in-out infinite;
   animation-delay: -4s;
 }
+
+/* Flowing dashed connector lines, hub-and-spoke style (hero diagram) */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -24; }
+}
+
+.dash-flow {
+  stroke-dasharray: 5 7;
+  animation: dash-flow 1.1s linear infinite;
+}

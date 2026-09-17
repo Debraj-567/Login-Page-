@@ -6,6 +6,15 @@ const RUN_BARS = [
   { label: "Calls placed — 42%", color: "bg-warn", width: "42%" },
 ];
 
+// Hub-and-spoke connector paths, drawn in a 0–100 percentage viewBox so they
+// track the four corner cards regardless of the container's actual pixel size.
+const CONNECTORS = [
+  { d: "M50,50 C 36,36 24,22 15,12", color: "var(--warn)" },
+  { d: "M50,50 C 64,36 76,22 85,12", color: "var(--accent)" },
+  { d: "M50,50 C 36,64 24,78 15,88", color: "var(--teal)" },
+  { d: "M50,50 C 64,64 76,78 85,88", color: "var(--accent)" },
+];
+
 export default function Hero() {
   return (
     <section className="relative pt-10 sm:pt-16 pb-4 text-center overflow-hidden">
@@ -36,13 +45,36 @@ export default function Hero() {
         </div>
 
         <div
-          className="relative max-w-[980px] mx-auto mt-12 min-h-[430px] hidden lg:block"
+          className="relative max-w-[980px] mx-auto mt-12 h-[440px] hidden lg:block"
           aria-hidden="true"
           data-aos="fade-up"
           data-aos-delay="150"
         >
+          {/* connector lines, drawn beneath the cards */}
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
+            {CONNECTORS.map((c) => (
+              <g key={c.d}>
+                <path d={c.d} fill="none" stroke="var(--line)" strokeWidth="0.35" vectorEffect="non-scaling-stroke" />
+                <path
+                  d={c.d}
+                  fill="none"
+                  stroke={c.color}
+                  strokeWidth="0.45"
+                  strokeLinecap="round"
+                  vectorEffect="non-scaling-stroke"
+                  className="dash-flow"
+                  opacity="0.85"
+                />
+              </g>
+            ))}
+          </svg>
+
           <div
-            className="absolute top-0 left-[2%] w-[190px] -rotate-6 bg-warnsoft rounded-xl p-4 text-left text-sm font-semibold shadow-cardlg"
+            className="absolute top-[3%] left-[3%] w-[190px] -rotate-6 bg-warnsoft rounded-xl p-4 text-left text-sm font-semibold shadow-cardlg"
             style={{ color: "#7A5410" }}
           >
             <span
@@ -55,11 +87,11 @@ export default function Hero() {
             </span>
           </div>
 
-          <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[68px] h-[68px] rounded-[18px] bg-ink text-bg flex items-center justify-center opacity-90">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[68px] h-[68px] rounded-[18px] bg-ink text-bg flex items-center justify-center shadow-cardlg z-10">
             <Icon name="i-node" className="w-7 h-7" />
           </div>
 
-          <div className="absolute top-[6%] right-0 w-[190px] rotate-3 bg-surface border border-line rounded-xl p-4 text-left shadow-cardlg">
+          <div className="absolute top-[3%] right-[3%] w-[190px] rotate-3 bg-surface border border-line rounded-xl p-4 text-left shadow-cardlg">
             <div className="text-xs font-bold text-inksoft mb-2">Scheduled sends</div>
             <div className="text-sm font-bold">Instagram carousel</div>
             <span className="inline-flex items-center gap-1 text-xs text-inksoft bg-surface2 rounded-md px-2 py-0.5 mt-1 tabular-nums">
@@ -71,7 +103,7 @@ export default function Hero() {
             </span>
           </div>
 
-          <div className="absolute bottom-[2%] left-0 w-[230px] bg-surface border border-line rounded-xl p-4 text-left shadow-cardlg">
+          <div className="absolute bottom-[3%] left-[3%] w-[230px] bg-surface border border-line rounded-xl p-4 text-left shadow-cardlg">
             <div className="text-sm font-bold mb-3">Today&apos;s automations</div>
             {RUN_BARS.map((row, i) => (
               <div className={i < RUN_BARS.length - 1 ? "mb-3" : ""} key={row.label}>
@@ -86,7 +118,7 @@ export default function Hero() {
             ))}
           </div>
 
-          <div className="absolute bottom-[8%] right-[2%] w-[200px] bg-surface border border-line rounded-xl p-4 text-left shadow-cardlg">
+          <div className="absolute bottom-[3%] right-[3%] w-[200px] bg-surface border border-line rounded-xl p-4 text-left shadow-cardlg">
             <div className="text-xs font-bold text-inksoft mb-3">12+ integrations</div>
             <div className="flex gap-2 flex-wrap">
               <span className="w-8 h-8 rounded-[9px] flex items-center justify-center" style={{ background: "#DCFCE7", color: "#16A34A" }}>
