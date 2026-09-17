@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Icon from "./Icon";
 import Pill from "./Pill";
 
@@ -8,14 +11,27 @@ const COLUMNS = [
 ];
 
 const NAV_ITEMS = [
-  { icon: "i-home", label: "Home", active: true },
+  { icon: "i-home", label: "Home" },
   { icon: "i-taskflow", label: "My runs · 22" },
   { icon: "i-inbox", label: "Inbox · 15" },
   { icon: "i-report", label: "Reporting" },
   { icon: "i-grid", label: "Channels" },
 ];
 
+const INITIAL_TASKS = [
+  { label: "Approve Instagram queue", done: true },
+  { label: "Review lead scoring rules", done: false },
+  { label: "Confirm call script v2", done: false },
+];
+
 export default function Solutions() {
+  const [activeNav, setActiveNav] = useState(NAV_ITEMS[0].label);
+  const [tasks, setTasks] = useState(INITIAL_TASKS);
+
+  function toggleTask(label) {
+    setTasks((prev) => prev.map((t) => (t.label === label ? { ...t, done: !t.done } : t)));
+  }
+
   return (
     <section id="solutions" className="py-16 sm:py-24">
       <div className="max-w-[1180px] mx-auto px-5 sm:px-8">
@@ -45,36 +61,45 @@ export default function Solutions() {
                   <span className="w-[5px] h-[5px] rounded-full bg-ink"></span>
                   <span className="w-[5px] h-[5px] rounded-full bg-ink"></span>
                 </span>
-                Flowbridge
+                Meta CRM
               </div>
               {NAV_ITEMS.map((item) => (
-                <div
+                <button
                   key={item.label}
-                  className={`flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm font-semibold mb-1 ${
-                    item.active ? "bg-accentsoft text-accent" : "text-inksoft"
+                  type="button"
+                  onClick={() => setActiveNav(item.label)}
+                  className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-sm font-semibold mb-1 text-left transition-colors duration-200 cursor-pointer ${
+                    activeNav === item.label ? "bg-accentsoft text-accent" : "text-inksoft hover:bg-surface hover:text-ink"
                   }`}
                 >
                   <Icon name={item.icon} className="w-3.5 h-3.5" /> {item.label}
-                </div>
+                </button>
               ))}
             </div>
             <div className="p-5 sm:p-7 text-left">
               <div className="flex items-center justify-between mb-6">
                 <h4 className="text-lg font-extrabold">Good morning, team 👋</h4>
-                <Pill>Customize</Pill>
+                <button
+                  type="button"
+                  className="cursor-pointer transition-transform duration-200 hover:-translate-y-0.5 active:translate-y-0"
+                >
+                  <Pill>Customize</Pill>
+                </button>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-[1.2fr_1fr_1fr] gap-4">
                 <div className="bg-surface2 border border-line rounded-xl p-4">
                   <h5 className="text-xs font-bold text-inksoft mb-3">To-do list</h5>
-                  <label className="flex items-center gap-2 text-sm font-semibold mb-2">
-                    <input type="checkbox" checked readOnly className="accent-accent" /> Approve Instagram queue
-                  </label>
-                  <label className="flex items-center gap-2 text-sm font-semibold mb-2">
-                    <input type="checkbox" readOnly className="accent-accent" /> Review lead scoring rules
-                  </label>
-                  <label className="flex items-center gap-2 text-sm font-semibold">
-                    <input type="checkbox" readOnly className="accent-accent" /> Confirm call script v2
-                  </label>
+                  {tasks.map((t) => (
+                    <label key={t.label} className="flex items-center gap-2 text-sm font-semibold mb-2 last:mb-0 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        checked={t.done}
+                        onChange={() => toggleTask(t.label)}
+                        className="accent-accent cursor-pointer"
+                      />
+                      <span className={t.done ? "line-through text-inksoft" : ""}>{t.label}</span>
+                    </label>
+                  ))}
                 </div>
                 <div className="bg-surface2 border border-line rounded-xl p-4">
                   <h5 className="text-xs font-bold text-inksoft mb-3">Time saved</h5>
