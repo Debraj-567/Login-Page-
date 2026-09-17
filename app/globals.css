@@ -103,3 +103,35 @@ h1, h2, h3 {
   stroke-dasharray: 5 7;
   animation: dash-flow 1.1s linear infinite;
 }
+
+/* Command-center hero (dark, single-theme by design — see Hero.jsx) */
+.font-annotation {
+  font-family: "Caveat", "Segoe Script", cursive;
+}
+
+@keyframes hub-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(91, 140, 255, .35), 0 0 40px 6px rgba(91, 140, 255, .25); }
+  50% { box-shadow: 0 0 0 10px rgba(91, 140, 255, 0), 0 0 56px 14px rgba(91, 140, 255, .4); }
+}
+
+.animate-hub-breathe {
+  animation: hub-breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: .55; }
+}
+
+.animate-dot-pulse {
+  animation: dot-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes card-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-card-float {
+  animation: card-float 5s ease-in-out infinite;
+}

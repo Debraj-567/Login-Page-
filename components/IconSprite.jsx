@@ -32,6 +32,8 @@ export default function IconSprite() {
         <g id="i-meta" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 13.5c0-4.5 2-7.5 4-7.5s2.7 2.3 3 4c.3-1.7 1-4 3-4s4 3 4 7.5c-1 0-2-.6-3-2.3-.6-1-1.2-2.6-1.6-4-.4 1.4-1 3-1.6 4-.8 1.4-1.7 2.3-2.8 2.3s-2-.9-2.8-2.3c-.6-1-1.2-2.6-1.6-4-.4 1.4-1 3-1.6 4-.6 1-1.2 1.7-2 2z" /></g>
         <g id="i-shield" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M10 3 4 5.3v4.4c0 3.7 2.4 6.6 6 7.3 3.6-.7 6-3.6 6-7.3V5.3z" /><path d="M7.3 10 9 11.7l3.7-3.9" /></g>
         <g id="i-spark" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M10 3v3.4M10 13.6V17M3 10h3.4M13.6 10H17M5.4 5.4l2.4 2.4M12.2 12.2l2.4 2.4M14.6 5.4l-2.4 2.4M7.8 12.2l-2.4 2.4" /></g>
+        <g id="i-bolt" fill="currentColor" stroke="none"><path d="M11.2 2.4 4.6 11.3a.6.6 0 0 0 .5 1h3.4l-.9 5.3a.5.5 0 0 0 .9.4l6.9-9.1a.6.6 0 0 0-.5-1h-3.5l.9-5.1a.5.5 0 0 0-.9-.4Z" /></g>
+        <g id="i-plug" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M7 3.5v3M13 3.5v3M5 6.5h10l-.6 4.4A4.4 4.4 0 0 1 10 15a4.4 4.4 0 0 1-4.4-4.1z" /><path d="M10 15v2" /></g>
       </defs>
     </svg>
   );
