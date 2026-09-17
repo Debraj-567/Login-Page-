@@ -9,10 +9,10 @@ import AnimatedBar from "./AnimatedBar";
 // toggle, the way a hero on Linear/Vercel/Stripe often commits to one look.
 
 const SPOKES = [
-  { x1: 44, y1: 44, x2: 27, y2: 27, color: "#F5A623" },
-  { x1: 56, y1: 44, x2: 73, y2: 27, color: "#A78BFA" },
-  { x1: 44, y1: 56, x2: 27, y2: 73, color: "#2DD4BF" },
-  { x1: 56, y1: 56, x2: 73, y2: 73, color: "#5B8CFF" },
+  { x1: 44, y1: 44, x2: 23, y2: 23, color: "#F5A623" },
+  { x1: 56, y1: 44, x2: 77, y2: 23, color: "#A78BFA" },
+  { x1: 44, y1: 56, x2: 23, y2: 77, color: "#2DD4BF" },
+  { x1: 56, y1: 56, x2: 77, y2: 77, color: "#5B8CFF" },
 ];
 
 function Annotation({ className, color, flip, children }) {
