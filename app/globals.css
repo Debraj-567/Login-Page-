@@ -104,6 +104,15 @@ h1, h2, h3 {
   animation: dash-flow 1.1s linear infinite;
 }
 
+@keyframes dash-flow-lg {
+  to { stroke-dashoffset: -48; }
+}
+
+.dash-flow-lg {
+  stroke-dasharray: 9 12;
+  animation: dash-flow-lg 1.3s linear infinite;
+}
+
 /* Command-center hero (dark, single-theme by design — see Hero.jsx) */
 .font-annotation {
   font-family: "Caveat", "Segoe Script", cursive;

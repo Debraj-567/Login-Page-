@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from "./Icon";
 import ThemeToggle from "./ThemeToggle";
 
@@ -13,6 +13,27 @@ const LINKS = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState(null);
+
+  // Highlights whichever section is currently in view, so the active pill
+  // tracks real scroll position instead of being hardcoded.
+  useEffect(() => {
+    const sections = LINKS.map(([href]) => document.querySelector(href)).filter(Boolean);
+    if (!sections.length) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length > 0) {
+          const top = visible.reduce((a, b) => (a.intersectionRatio > b.intersectionRatio ? a : b));
+          setActiveHref(`#${top.target.id}`);
+        }
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
+    sections.forEach((s) => io.observe(s));
+    return () => io.disconnect();
+  }, []);
 
   return (
     <header className="sticky z-40 backdrop-blur bg-bg/85" style={{ top: "env(safe-area-inset-top,0px)" }}>
@@ -24,14 +45,24 @@ export default function Navbar() {
           Flowbridge
         </a>
 
-        <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0">
-          {LINKS.map(([href, label]) => (
-            <li key={href}>
-              <a href={href} className="text-sm font-semibold text-inksoft hover:text-ink">
-                {label}
-              </a>
-            </li>
-          ))}
+        <ul className="hidden md:flex items-center gap-2 list-none m-0 p-0">
+          {LINKS.map(([href, label]) => {
+            const active = activeHref === href;
+            return (
+              <li key={href}>
+                <a
+                  href={href}
+                  className={`inline-block text-sm font-semibold px-4 py-2 rounded-full transition-colors duration-200 ${
+                    active
+                      ? "text-accent bg-[rgba(59,130,246,0.14)] shadow-[0_0_0_1px_rgba(70,140,255,0.35),0_0_18px_-6px_rgba(59,130,246,0.6)]"
+                      : "text-inksoft hover:text-ink"
+                  }`}
+                >
+                  {label}
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex items-center gap-3">

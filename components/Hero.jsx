@@ -7,27 +7,27 @@ import AnimatedBar from "./AnimatedBar";
 // This hero is a deliberately single-theme, cinematic "command center" —
 // it keeps its own dark palette regardless of the site-wide light/dark
 // toggle, the way a hero on Linear/Vercel/Stripe often commits to one look.
+//
+// The diagram below is laid out in a fixed 1040x480 coordinate space that
+// the container locks to via aspect-ratio, so percentage-positioned cards
+// and the pixel-coordinate SVG paths always line up exactly, at any
+// rendered width.
 
-const SPOKES = [
-  { x1: 44, y1: 44, x2: 23, y2: 23, color: "#F5A623" },
-  { x1: 56, y1: 44, x2: 77, y2: 23, color: "#A78BFA" },
-  { x1: 44, y1: 56, x2: 23, y2: 77, color: "#2DD4BF" },
-  { x1: 56, y1: 56, x2: 77, y2: 77, color: "#5B8CFF" },
+const HUB = { x: 520, y: 240 };
+
+const CONNECTORS = [
+  { d: "M312,173 C400,200 460,215 520,240", node: [312, 173], color: "#F5A623" },
+  { d: "M728,173 C640,200 580,215 520,240", node: [728, 173], color: "#A78BFA" },
+  { d: "M312,288 C400,265 460,250 520,240", node: [312, 288], color: "#2DD4BF" },
+  { d: "M728,326 C640,295 580,265 520,240", node: [728, 326], color: "#5B8CFF" },
 ];
 
 function Annotation({ className, color, flip, children }) {
   return (
-    <div className={`hidden xl:block absolute font-annotation text-lg leading-tight ${className}`} style={{ color }} aria-hidden="true">
-      <div className={flip ? "-scale-x-100" : ""}>{children}</div>
+    <div className={`hidden xl:block absolute font-annotation text-lg leading-tight whitespace-nowrap ${className}`} style={{ color }} aria-hidden="true">
+      <div>{children}</div>
       <svg width="46" height="30" viewBox="0 0 46 30" fill="none" className={flip ? "-scale-x-100" : ""}>
-        <path
-          d="M4 4c2 10 10 18 20 20"
-          stroke={color}
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.8"
-        />
+        <path d="M4 4c2 10 10 18 20 20" stroke={color} strokeWidth="1.6" strokeLinecap="round" fill="none" opacity="0.8" />
         <path d="M20 21 25 25 22 18" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.8" />
       </svg>
     </div>
@@ -40,13 +40,13 @@ function HubCard({ className, delay, floatDelay, iconBg, iconColor, icon, title,
       data-aos="fade-up"
       data-aos-delay={delay}
       style={{ animationDelay: floatDelay }}
-      className={`animate-card-float absolute w-[220px] rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-md p-4 text-left shadow-[0_20px_50px_-20px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1.5 hover:border-white/25 hover:bg-white/[0.09] ${className}`}
+      className={`animate-card-float absolute w-[30%] min-w-[240px] max-w-[320px] rounded-2xl border border-white/10 bg-white/[0.045] backdrop-blur-md p-5 text-left shadow-[0_24px_60px_-24px_rgba(0,0,0,0.65)] transition-all duration-300 hover:-translate-y-1.5 hover:border-white/25 hover:bg-white/[0.08] ${className}`}
     >
-      <div className="flex items-center gap-2.5 mb-3">
-        <span className="w-8 h-8 rounded-[9px] flex items-center justify-center flex-none" style={{ background: iconBg, color: iconColor }}>
-          <Icon name={icon} className="w-4 h-4" />
+      <div className="flex items-center gap-2.5 mb-3.5">
+        <span className="w-10 h-10 rounded-[10px] flex items-center justify-center flex-none" style={{ background: iconBg, color: iconColor }}>
+          <Icon name={icon} className="w-5 h-5" />
         </span>
-        <h4 className="text-sm font-bold text-white">{title}</h4>
+        <h4 className="text-[15px] font-bold text-white">{title}</h4>
       </div>
       {children}
     </div>
@@ -84,162 +84,126 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-[#080B10] text-center py-16 sm:py-20">
+    <section className="relative overflow-hidden bg-[#080B10] text-center py-14 sm:py-16">
       {/* ambient background: glow blobs + dot grid */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="absolute -top-32 -left-20 w-[420px] h-[420px] rounded-full bg-[#3B5BFF] opacity-20 blur-[110px] animate-drift"></div>
-        <div className="absolute top-10 -right-24 w-[380px] h-[380px] rounded-full bg-[#8B5CF6] opacity-20 blur-[110px] animate-drift-slow"></div>
-        <div className="absolute bottom-0 left-1/3 w-[340px] h-[340px] rounded-full bg-[#14B8A6] opacity-10 blur-[110px] animate-drift"></div>
+        <div className="absolute -top-32 -left-20 w-[420px] h-[420px] rounded-full bg-[#3B5BFF] opacity-[0.16] blur-[110px] animate-drift"></div>
+        <div className="absolute top-10 -right-24 w-[380px] h-[380px] rounded-full bg-[#8B5CF6] opacity-[0.16] blur-[110px] animate-drift-slow"></div>
+        <div className="absolute bottom-0 left-1/3 w-[340px] h-[340px] rounded-full bg-[#14B8A6] opacity-[0.10] blur-[110px] animate-drift"></div>
         <div
-          className="absolute inset-0 opacity-[0.35]"
+          className="absolute inset-0 opacity-[0.3]"
           style={{
-            backgroundImage: "radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)",
             backgroundSize: "26px 26px",
-            maskImage: "radial-gradient(ellipse 70% 60% at 50% 20%, black 40%, transparent 90%)",
+            maskImage: "radial-gradient(ellipse 70% 55% at 50% 15%, black 40%, transparent 90%)",
           }}
         ></div>
       </div>
 
       <div className="relative max-w-[1180px] mx-auto px-5 sm:px-8">
         <div className="max-w-[720px] mx-auto">
-          <p className="font-mono text-xs sm:text-sm font-semibold tracking-[0.2em] text-[#7DA2FF] mb-4" data-aos="fade-up">
+          <p className="font-mono text-xs sm:text-sm font-semibold tracking-[0.3em] text-[#7DA2FF] mb-4" data-aos="fade-up">
             YOUR AUTOMATION COMMAND CENTER
           </p>
-          <h1 className="text-[2.3rem] sm:text-6xl font-extrabold leading-[1.05] tracking-tight" data-aos="fade-up" data-aos-delay="100">
+          <h1 className="text-[2.3rem] sm:text-[3.6rem] font-extrabold leading-[1.05] tracking-tight whitespace-normal sm:whitespace-nowrap" data-aos="fade-up" data-aos-delay="100">
             <span className="text-white">Automate. </span>
             <span className="bg-gradient-to-r from-[#5B8CFF] to-[#8B9CFF] bg-clip-text text-transparent">Engage. </span>
             <span className="bg-gradient-to-r from-[#A78BFA] to-[#C4B5FD] bg-clip-text text-transparent">Grow.</span>
           </h1>
-          <p className="text-white/55 text-lg max-w-[46ch] mx-auto mt-5 mb-8" data-aos="fade-up" data-aos-delay="200">
+          <p className="text-white/55 text-lg max-w-[46ch] mx-auto mt-5" data-aos="fade-up" data-aos-delay="200">
             Everything you need to manage leads, content and communication — all in one place.
           </p>
-          <a
-            href="#contact"
-            data-aos="fade-up"
-            data-aos-delay="250"
-            className="inline-flex items-center gap-2 font-bold px-7 py-4 rounded-full bg-white text-[#0B1220] shadow-[0_18px_36px_-14px_rgba(91,140,255,0.55)] hover:brightness-95 transition"
-          >
-            Get free audit
-          </a>
         </div>
 
-        {/* ===== desktop: connected diagram ===== */}
+        {/* ===== desktop: connected diagram (fixed 1040x480 coordinate space) ===== */}
         <div
           ref={diagramRef}
-          className="relative max-w-[960px] mx-auto mt-16 h-[460px] hidden lg:block"
+          className="relative max-w-[1040px] w-full mx-auto mt-10 aspect-[1040/480] hidden lg:block"
           data-aos="fade-up"
           data-aos-delay="300"
         >
-          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-            {SPOKES.map((s) => (
-              <g key={`${s.x1}-${s.y1}`}>
-                <line x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} stroke={s.color} strokeWidth="0.5" strokeLinecap="round" className="dash-flow" opacity="0.75" />
-                <circle cx={s.x2} cy={s.y2} r="1.1" fill={s.color} className="animate-dot-pulse" style={{ transformOrigin: `${s.x2}px ${s.y2}px` }} />
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1040 480" preserveAspectRatio="none">
+            {CONNECTORS.map((c) => (
+              <g key={c.d}>
+                <path d={c.d} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" />
+                <path d={c.d} fill="none" stroke={c.color} strokeWidth="2.4" strokeLinecap="round" className="dash-flow-lg" opacity="0.9" />
+                <circle r="3.5" fill={c.color}>
+                  <animateMotion dur="3s" repeatCount="indefinite" path={c.d} rotate="auto" />
+                </circle>
+                <circle cx={c.node[0]} cy={c.node[1]} r="5" fill={c.color} className="animate-dot-pulse" style={{ transformOrigin: `${c.node[0]}px ${c.node[1]}px` }} />
               </g>
             ))}
           </svg>
 
           <div
             ref={hubRef}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[72px] h-[72px] rounded-2xl bg-white flex items-center justify-center animate-hub-breathe z-10 transition-transform duration-150 ease-out"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80px] h-[80px] rounded-[20px] bg-white flex items-center justify-center animate-hub-breathe z-10 transition-transform duration-150 ease-out"
           >
-            <Icon name="i-node" className="w-7 h-7 text-[#0B1220]" />
+            <Icon name="i-node" className="w-8 h-8 text-[#0B1220]" />
           </div>
 
-          <HubCard
-            className="top-[2%] left-[2%]"
-            delay="500"
-            floatDelay="0s"
-            icon="i-bolt"
-            iconBg="rgba(245,166,35,0.18)"
-            iconColor="#F5A623"
-            title="Smart Batch Approval"
-          >
-            <p className="text-xs text-white/60 leading-relaxed">
+          <HubCard className="top-0 left-0" delay="500" floatDelay="0s" icon="i-bolt" iconBg="rgba(245,166,35,0.18)" iconColor="#F5A623" title="Smart Batch Approval">
+            <p className="text-[13px] text-white/60 leading-relaxed">
               Approve every lead in one pass and save <span className="font-bold text-white">20 minutes a day.</span>
             </p>
-            <span className="absolute -bottom-3 -right-3 w-7 h-7 rounded-[9px] bg-[#5B8CFF] text-white flex items-center justify-center shadow-lg">
-              <Icon name="i-check" className="w-3.5 h-3.5" />
+            <span className="absolute -bottom-3 -right-3 w-8 h-8 rounded-[9px] bg-[#5B8CFF] text-white flex items-center justify-center shadow-lg">
+              <Icon name="i-check" className="w-4 h-4" />
             </span>
           </HubCard>
-          <Annotation className="top-[10%] left-[-11%]" color="#F5A623">
+          <Annotation className="top-[24%] left-[-13%]" color="#F5A623">
             Less work.
             <br />
             More growth.
           </Annotation>
 
-          <HubCard
-            className="top-[2%] right-[2%]"
-            delay="600"
-            floatDelay="-1.5s"
-            icon="i-calendar"
-            iconBg="rgba(167,139,250,0.18)"
-            iconColor="#A78BFA"
-            title="Scheduled Sends"
-          >
-            <div className="text-xs font-bold text-white mb-1">Instagram carousel</div>
+          <HubCard className="top-0 right-0" delay="600" floatDelay="-1.5s" icon="i-calendar" iconBg="rgba(167,139,250,0.18)" iconColor="#A78BFA" title="Scheduled Sends">
+            <div className="text-[13px] font-bold text-white mb-1">Instagram carousel</div>
             <span className="inline-flex items-center gap-1 text-[11px] text-white/50 tabular-nums mb-2.5">
               <Icon name="i-clock" className="w-2.5 h-2.5" /> 10:00 – 10:05
             </span>
             <div className="border-t border-white/10 pt-2.5">
-              <div className="text-xs font-bold text-white mb-1">WhatsApp broadcast</div>
+              <div className="text-[13px] font-bold text-white mb-1">WhatsApp broadcast</div>
               <span className="inline-flex items-center gap-1 text-[11px] text-white/50 tabular-nums">
                 <Icon name="i-clock" className="w-2.5 h-2.5" /> 14:00 – 14:10
               </span>
             </div>
           </HubCard>
-          <Annotation className="top-[8%] right-[-13%]" color="#A78BFA" flip>
+          <Annotation className="top-[20%] right-[-14%]" color="#A78BFA" flip>
             Plan today.
             <br />
             Reach tomorrow.
           </Annotation>
 
-          <HubCard
-            className="bottom-[2%] left-[2%]"
-            delay="700"
-            floatDelay="-3s"
-            icon="i-report"
-            iconBg="rgba(45,212,191,0.18)"
-            iconColor="#2DD4BF"
-            title="Today's Automations"
-          >
+          <HubCard className="bottom-0 left-0" delay="700" floatDelay="-3s" icon="i-report" iconBg="rgba(45,212,191,0.18)" iconColor="#2DD4BF" title="Today's Automations">
             <div className="space-y-2.5">
               <AnimatedBar label="New leads synced" value={60} colorClass="bg-[#5B8CFF]" />
               <AnimatedBar label="Posts queued" value={100} colorClass="bg-[#2DD4BF]" />
               <AnimatedBar label="Calls placed" value={42} colorClass="bg-[#F5A623]" />
             </div>
           </HubCard>
-          <Annotation className="bottom-[6%] left-[-11%]" color="#2DD4BF">
+          <Annotation className="bottom-[16%] left-[-13%]" color="#2DD4BF">
             Track progress.
             <br />
             Stay ahead.
           </Annotation>
 
-          <HubCard
-            className="bottom-[2%] right-[2%]"
-            delay="800"
-            floatDelay="-4.5s"
-            icon="i-plug"
-            iconBg="rgba(91,140,255,0.18)"
-            iconColor="#5B8CFF"
-            title="12+ Integrations"
-          >
+          <HubCard className="bottom-0 right-0" delay="800" floatDelay="-4.5s" icon="i-plug" iconBg="rgba(91,140,255,0.18)" iconColor="#5B8CFF" title="12+ Integrations">
             <div className="flex gap-2 flex-wrap">
-              <span className="w-8 h-8 rounded-[9px] flex items-center justify-center" style={{ background: "rgba(34,197,94,0.18)", color: "#4ADE80" }}>
+              <span className="w-9 h-9 rounded-[9px] flex items-center justify-center" style={{ background: "rgba(34,197,94,0.18)", color: "#4ADE80" }}>
                 <Icon name="i-email" className="w-4 h-4" />
               </span>
-              <span className="w-8 h-8 rounded-[9px] flex items-center justify-center" style={{ background: "rgba(34,197,94,0.18)", color: "#4ADE80" }}>
+              <span className="w-9 h-9 rounded-[9px] flex items-center justify-center" style={{ background: "rgba(34,197,94,0.18)", color: "#4ADE80" }}>
                 <Icon name="i-chatbot" className="w-4 h-4" />
               </span>
-              <span className="w-8 h-8 rounded-[9px] flex items-center justify-center" style={{ background: "rgba(59,130,246,0.18)", color: "#60A5FA" }}>
+              <span className="w-9 h-9 rounded-[9px] flex items-center justify-center" style={{ background: "rgba(59,130,246,0.18)", color: "#60A5FA" }}>
                 <Icon name="i-linkedin" className="w-4 h-4" />
               </span>
-              <span className="w-8 h-8 rounded-[9px] flex items-center justify-center" style={{ background: "rgba(236,72,153,0.18)", color: "#F472B6" }}>
+              <span className="w-9 h-9 rounded-[9px] flex items-center justify-center" style={{ background: "rgba(236,72,153,0.18)", color: "#F472B6" }}>
                 <Icon name="i-instagram" className="w-4 h-4" />
               </span>
             </div>
           </HubCard>
-          <Annotation className="bottom-[8%] right-[-11%]" color="#5B8CFF" flip>
+          <Annotation className="bottom-[18%] right-[-12%]" color="#5B8CFF" flip>
             All your tools.
             <br />
             Connected.
@@ -306,7 +270,7 @@ export default function Hero() {
         </div>
 
         {/* ===== bottom feature row ===== */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 mt-14 sm:mt-16 max-w-[1080px] mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10 sm:mt-12 max-w-[1080px] mx-auto">
           {[
             { icon: "i-grid", title: "All-in-One Toolkit", text: "Powerful tools, one dashboard." },
             { icon: "i-report", title: "Real-Time Insights", text: "Track what matters." },
@@ -329,6 +293,14 @@ export default function Hero() {
             </div>
           ))}
         </div>
+
+        <a
+          href="#contact"
+          data-aos="fade-up"
+          className="inline-flex items-center gap-2 font-bold px-7 py-4 rounded-full bg-white text-[#0B1220] shadow-[0_18px_36px_-14px_rgba(91,140,255,0.55)] hover:brightness-95 transition mt-10"
+        >
+          Get free audit
+        </a>
       </div>
     </section>
   );
