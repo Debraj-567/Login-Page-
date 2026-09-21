@@ -1,54 +1,23 @@
 # Flowbridge Landing Page
 
-A Next.js (App Router) landing page for Flowbridge, an automation & AI studio.
+A Next.js (App Router) + Tailwind landing page for Flowbridge, an automation & AI studio.
 
-## Structure
-
-```
-app/
-  layout.js       # root layout: fonts, theme init script, icon sprite, AOS init
-  page.js         # composes the page from section components
-  globals.css     # Tailwind directives + theme CSS variables (light/dark)
-components/
-  Navbar.jsx      # sticky nav, mobile menu (client)
-  ThemeToggle.jsx # light/dark toggle (client)
-  Hero.jsx        # hero headline + floating mockup cards
-  Solutions.jsx   # "solve your bottlenecks" section + dashboard mockup
-  Bento.jsx       # 2x2 feature card grid
-  BentoCard.jsx   # shared card shell for the bento grid
-  Toolkit.jsx     # full 12-service grid (data-driven)
-  Process.jsx     # 4-step build process (data-driven)
-  CTA.jsx         # closing call-to-action band
-  Footer.jsx      # link-directory footer
-  Icon.jsx        # <svg><use/></svg> wrapper for the icon sprite
-  IconSprite.jsx  # all icon glyphs, defined once
-  Pill.jsx        # small pill/badge used across sections
-  AosInit.jsx     # initializes the AOS scroll-reveal library (client)
-data/
-  toolkit.js      # the 12 services shown in the Toolkit section
-  steps.js        # the 4 steps shown in the Process section
-  footer.js       # footer link columns
-```
-
-## Getting started
+## Run locally
 
 ```bash
 npm install
-npm run dev
+npm run dev     # http://localhost:3000
+npm run build   # production build
 ```
 
-Then open http://localhost:3000.
+## Structure
 
-## Stack
+- `app/` : root layout, page composition, global styles
+- `components/` : one file per section (Hero, Systems, Flow, Dashboards, Industries, StackBuilder, Process, Why, Faq, CTA, Footer) plus `mockups.jsx` (illustrative product screens)
+- `data/content.js` : all page copy (systems, FAQ, process, industries, etc.)
 
-- **Next.js 14** (App Router)
-- **React 18**
-- **Tailwind CSS** — utility classes mapped to CSS variables in `globals.css`, so the whole palette swaps with one `dark` class on `<html>`
-- **AOS** — scroll-reveal animations
+Append `?static` to the URL to disable scroll animations (useful for screenshots).
 
-## Editing content
+## Deploy
 
-- Services: edit `data/toolkit.js`
-- Build process steps: edit `data/steps.js`
-- Footer links: edit `data/footer.js`
-- Brand name / email / colors: search for `Flowbridge` and `hello@flowbridge.studio`, and the CSS variables at the top of `app/globals.css`
+Import the repository in Vercel. No environment variables are required; the framework preset is detected automatically.

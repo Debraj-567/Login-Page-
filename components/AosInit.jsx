@@ -8,7 +8,13 @@ import "aos/dist/aos.css";
 // for every element carrying a data-aos attribute.
 export default function AosInit() {
   useEffect(() => {
-    AOS.init({ duration: 650, easing: "ease-out-cubic", once: true, offset: 60 });
+    AOS.init({
+      duration: 650,
+      easing: "ease-out-cubic",
+      once: true,
+      offset: 60,
+      disable: () => new URLSearchParams(window.location.search).has("static"),
+    });
   }, []);
 
   return null;

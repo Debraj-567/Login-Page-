@@ -3,58 +3,63 @@
 @tailwind utilities;
 
 :root {
-  --bg: #F4F4F6;
+  --bg: #FFFFFF;
   --surface: #FFFFFF;
-  --surface-soft: #FAFAFB;
-  --ink: #14161A;
-  --ink-soft: #6B7280;
-  --line: #E6E7EB;
-  --accent: #2F6FED;
+  --surface-soft: #F5F8FE;
+  --ink: #0B1B3A;
+  --ink-soft: #5A6883;
+  --line: #E0E8F5;
+  --accent: #2563EB;
   --accent-ink: #FFFFFF;
-  --accent-soft: #E8EFFE;
-  --warn: #F5A623;
-  --warn-soft: #FDF1DD;
-  --teal: #14B8A6;
-  --teal-soft: #E1F7F3;
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-html.dark {
-  --bg: #101114;
-  --surface: #17181C;
-  --surface-soft: #1C1E23;
-  --ink: #F2F3F5;
-  --ink-soft: #9AA0AC;
-  --line: #2A2C32;
-  --accent: #5B8CFF;
-  --accent-ink: #0B1220;
-  --accent-soft: #16233D;
-  --warn: #FFB454;
-  --warn-soft: #2E2312;
-  --teal: #2DD4BF;
-  --teal-soft: #123330;
-}
-
-html.dark .cta-shadow {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 20px 40px -22px rgba(0, 0, 0, .6) !important;
+  --accent-soft: #EAF2FF;
+  --ok: #16A34A;
+  --ok-soft: #E4F6EB;
+  --warn: #D97706;
+  --warn-soft: #FEF3DC;
+  --hot: #DC3F4A;
+  --hot-soft: #FDEBEC;
+  --violet: #7C4DFF;
+  --violet-soft: #F0EBFF;
+  color-scheme: light;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-padding-top: 84px;
+}
+
 body {
-  font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  font-family: "Satoshi", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
   background: var(--bg);
   color: var(--ink);
   overflow-x: hidden;
 }
 
 h1, h2, h3 {
+  font-family: "Clash Display", "Satoshi", ui-sans-serif, system-ui, sans-serif;
   text-wrap: balance;
+  font-weight: 600;
+}
+
+h1, h2 {
   letter-spacing: -0.02em;
-  font-weight: 800;
+  word-spacing: 0.08em;
+  line-height: 1.04;
+}
+
+h3 {
+  word-spacing: 0.06em;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+h1 em, h2 em {
+  font-style: normal;
+  color: var(--accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -65,82 +70,39 @@ h1, h2, h3 {
   }
 }
 
-/* Infinite horizontal scroll used by the integrations strip */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
 
-.animate-marquee {
-  animation: marquee 26s linear infinite;
+@keyframes flow {
+  to { background-position: 24px 0; }
 }
 
-.animate-marquee:hover {
-  animation-play-state: paused;
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-marquee { animation: marquee 32s linear infinite; }
+.marquee:hover .animate-marquee { animation-play-state: paused; }
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(11, 27, 58, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 27, 58, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
 }
 
-/* Slow ambient drift for the hero's background blobs */
-@keyframes drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(2%, -3%) scale(1.06); }
-}
-
-.animate-drift {
-  animation: drift 12s ease-in-out infinite;
-}
-
-.animate-drift-slow {
-  animation: drift 16s ease-in-out infinite;
-  animation-delay: -4s;
-}
-
-/* Flowing dashed connector lines, hub-and-spoke style (hero diagram) */
-@keyframes dash-flow {
-  to { stroke-dashoffset: -24; }
-}
-
-.dash-flow {
-  stroke-dasharray: 5 7;
-  animation: dash-flow 1.1s linear infinite;
-}
-
-@keyframes dash-flow-lg {
-  to { stroke-dashoffset: -48; }
-}
-
-.dash-flow-lg {
-  stroke-dasharray: 9 12;
-  animation: dash-flow-lg 1.3s linear infinite;
-}
-
-/* Command-center hero (dark, single-theme by design — see Hero.jsx) */
-.font-annotation {
-  font-family: "Caveat", "Segoe Script", cursive;
-}
-
-@keyframes hub-breathe {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(91, 140, 255, .35), 0 0 40px 6px rgba(91, 140, 255, .25); }
-  50% { box-shadow: 0 0 0 10px rgba(91, 140, 255, 0), 0 0 56px 14px rgba(91, 140, 255, .4); }
-}
-
-.animate-hub-breathe {
-  animation: hub-breathe 3.2s ease-in-out infinite;
-}
-
-@keyframes dot-pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.6); opacity: .55; }
-}
-
-.animate-dot-pulse {
-  animation: dot-pulse 1.8s ease-in-out infinite;
-}
-
-@keyframes card-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-.animate-card-float {
-  animation: card-float 5s ease-in-out infinite;
+.flow-line {
+  background-image: linear-gradient(to right, var(--accent) 50%, transparent 50%);
+  background-size: 12px 2px;
+  background-repeat: repeat-x;
+  animation: flow 0.9s linear infinite;
 }
